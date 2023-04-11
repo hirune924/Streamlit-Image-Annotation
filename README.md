@@ -2,6 +2,7 @@
 
 Streamlit component for image annotation.
 
+![](./image/demo.gif)
 # Features
 * You can easily launch an image annotation tool using streamlit.
 * By customizing the pre- and post-processing, you can achieve your preferred annotation workflow.

@@ -10,7 +10,7 @@ setuptools.setup(
     description="streamlit components for image annotation",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/hirune924/streamlit-image-annotation",
+    url="https://github.com/hirune924/Streamlit-Image-Annotation",
     packages=setuptools.find_packages(),
     include_package_data=True,
     classifiers=[],
