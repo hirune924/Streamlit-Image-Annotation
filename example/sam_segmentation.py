@@ -74,7 +74,7 @@ class SAMPredictor:
             result = np.where(np.tile(m.reshape(h, w, 1),(1,1,3)),(result * 0.5 + mask_image * 0.5).astype(np.uint8), result)
         return result
 
-sam_predictor = SAMPredictor(model_type='vit_h', device='cuda')
+sam_predictor = SAMPredictor(model_type='vit_b', device='cpu')
 label_list = ['deer', 'human', 'dog', 'penguin', 'framingo', 'teddy bear']
 colormap = get_colormap(label_list, colormap_name='gist_rainbow')
 image_path_list = glob('image/*.jpg')
