@@ -14,9 +14,7 @@ except:
     import subprocess
     subprocess.call(["pip","install","git+https://github.com/facebookresearch/segment-anything.git"])
     subprocess.call(["mkdir",".sam"])
-    #urllib.request.urlretrieve("https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth", ".sam/sam_vit_b_01ec64.pth")
-    urllib.request.urlretrieve("https://dl.fbaipublicfiles.com/segment_anything/sam_vit_h_4b8939.pth", ".sam/sam_vit_h_4b8939.pth")
-from segment_anything import SamPredictor, sam_model_registry
+    from segment_anything import SamPredictor, sam_model_registry
 
 def get_colormap(label_names, colormap_name='gist_rainbow'):
     colormap = []
