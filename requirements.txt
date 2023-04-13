@@ -4,3 +4,4 @@ streamlit-image-annotation
 matplotlib
 pandas
 numpy
+opencv-python-headless
