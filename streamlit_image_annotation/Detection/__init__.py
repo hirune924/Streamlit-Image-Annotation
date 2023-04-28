@@ -33,13 +33,14 @@ def get_colormap(label_names, colormap_name='gist_rainbow'):
 #[0,3]
 #'''
 def detection(image_path, label_list, bboxes=None, labels=None, height=512, width=512, key=None) -> CustomComponent:
-    image = Image.open(image_path)
+    image = Image.open(image_path)#.resize((3000,1500))
     original_image_size = image.size
+    print(original_image_size)
     image.thumbnail(size=(width, height))
     resized_image_size = image.size
     scale = original_image_size[0]/resized_image_size[0]
     
-    image_url = st_image.image_to_url(image, width, True, "RGB", "PNG", f"detection-{md5(image.tobytes()).hexdigest()}-{key}")
+    image_url = st_image.image_to_url(image, image.size[0], True, "RGB", "PNG", f"detection-{md5(image.tobytes()).hexdigest()}-{key}")
     if image_url.startswith('/'):
         image_url = image_url[1:]
 
