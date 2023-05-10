@@ -8,7 +8,7 @@ Streamlit component for image annotation.
 # Features
 * You can easily launch an image annotation tool using streamlit.
 * By customizing the pre- and post-processing, you can achieve your preferred annotation workflow.
-* Currently supports classification and detection tasks.
+* Currently supports classification, detection, point detection tasks.
 * Simple UI that is easy to navigate.
 
 # Install
@@ -38,8 +38,6 @@ if label is not None and label['label'] != st.session_state['result_df'].loc[num
 st.table(st.session_state['result_df'])
 ```
 # Future Work
-* Refactoring of the source code.
 * Addition of docs about API.
-* Addition of example code.
-* Addition of segmentation and point tasks.
+* Addition of component for segmentation task.
 
