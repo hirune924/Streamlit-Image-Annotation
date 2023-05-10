@@ -2,7 +2,7 @@
 
 Streamlit component for image annotation.
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://hirune924-streamlit-image-annotation-exampledetection-gx2ri5.streamlit.app/)
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://st-image-annotation.streamlit.app/)
 [![PyPI](https://img.shields.io/pypi/v/streamlit-image-annotation)](https://pypi.org/project/streamlit-image-annotation/)
 ![](./image/demo.gif)
 # Features
