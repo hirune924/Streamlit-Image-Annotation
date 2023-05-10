@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Circle, Rect, Text, Transformer } from 'react-konva';
 
 export interface RectProps {
@@ -17,7 +17,7 @@ export interface BBoxProps {
   onClick: any,
   scale: number
 }
-const Point = (props: BBoxProps) => {
+const Point = (props: BBoxProps)=>{
   const {
     rectProps, onChange, isSelected, onClick, scale
   }: BBoxProps = props
@@ -32,7 +32,7 @@ const Point = (props: BBoxProps) => {
         width={10}
         height={10}
         draggable={isSelected}
-        strokeWidth={isSelected?12:4}
+        strokeWidth={isSelected?12:3}
         onDragEnd={(e) => {
           onChange({
             ...rectProps,
