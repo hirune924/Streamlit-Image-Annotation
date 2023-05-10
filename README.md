@@ -37,7 +37,74 @@ if label is not None and label['label'] != st.session_state['result_df'].loc[num
     st.session_state['result_df'].loc[num_page, 'label'] = label_list.index(label['label'])
 st.table(st.session_state['result_df'])
 ```
+# API
+```python
+classification(
+    image_path: str,
+    label_list: List[str],
+    default_label_index: Optional[int] = None,
+    height: int = 512,
+    width: int = 512,
+    key: Optional[str] = None
+)
+```
+- **image_path**: Image path.
+- **label_list**: List of label candidates.
+- **default_label_index**: Initial label index.
+- **height**: The maximum height of the displayed image.
+- **width**: The maximum width of the displayed image.
+- **key**: An optional string to use as the unique key for the widget. Assign a key so the component is not remount every time the script is rerun.
+
+- **Component Value**: {'label': label_name}
+
+Example: [example code](example/classification.py)
+
+```python
+detection(
+    image_path: str,
+    label_list: List[str],
+    bboxes: Optional[List[List[int, int, int, int]]] = None,
+    labels: Optional[List[int]] = None,
+    height: int = 512,
+    width: int = 512,
+    key: Optional[str] = None
+)
+```
+- **image_path**: Image path.
+- **label_list**: List of label candidates.
+- **bboxes**: Initial list of bounding boxes, where each bbox is in the format [x, y, w, h].
+- **labels**: List of label for each initial bbox.
+- **height**: The maximum height of the displayed image.
+- **width**: The maximum width of the displayed image.
+- **key**: An optional string to use as the unique key for the widget. Assign a key so the component is not remount every time the script is rerun.
+
+- **Component Value**: \[{'bbox':[x,y,width, height], 'label_id': label_id, 'label': label_name},...\]
+
+Example: [example code](example/detection.py)
+
+```python
+pointdet(
+    image_path: str,
+    label_list: List[str],
+    points: Optional[List[List[int, int]]] = None,
+    labels: Optional[List[int]] = None,
+    height: int = 512,
+    width: int = 512,
+    key: Optional[str] = None
+)
+```
+- **image_path**: Image path.
+- **label_list**: List of label candidates.
+- **points**: Initial list of points, where each point is in the format [x, y].
+- **labels**: List of label for each initial bbox.
+- **height**: The maximum height of the displayed image.
+- **width**: The maximum width of the displayed image.
+- **key**: An optional string to use as the unique key for the widget. Assign a key so the component is not remount every time the script is rerun.
+
+- **Component Value**: \[{'bbox':[x,y], 'label_id': label_id, 'label': label_name},...\]
+
+Example: [example code](example/pointdet.py)
+
 # Future Work
-* Addition of docs about API.
 * Addition of component for segmentation task.
 
