@@ -37,7 +37,7 @@ def pointdet(image_path, label_list, points=None, labels=None, height=512, width
         image_url = image_url[1:]
 
     color_map = get_colormap(label_list, colormap_name='gist_rainbow')
-    points_info = [{'point':item[0], 'label_id': item[1], 'label': label_list[item[1]]} for item in zip(points, labels)]
+    points_info = [{'point':[b/scale for b in item[0]], 'label_id': item[1], 'label': label_list[item[1]]} for item in zip(points, labels)]
     component_value = _component_func(image_url=image_url, image_size=image.size, label_list=label_list, points_info=points_info, color_map=color_map, key=key)
     if component_value is not None:
         component_value = [{'point':[b*scale for b in item['point']], 'label_id': item['label_id'], 'label': item['label']}for item in component_value]
