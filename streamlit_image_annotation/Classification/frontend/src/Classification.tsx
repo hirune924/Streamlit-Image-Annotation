@@ -62,7 +62,7 @@ const Classification = ({ args, theme }: ComponentProps) => {
             </Box>
             <Spacer />
             <Box>
-              <Text fontSize='sm'>Mode</Text>
+              <Text fontSize='sm'>Class</Text>
               <Select value={label} onChange={handleChange}>
                 {label_list.map(
                   (l) =>
