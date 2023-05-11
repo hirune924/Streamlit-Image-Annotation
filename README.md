@@ -12,11 +12,14 @@ Streamlit component for image annotation.
 * Simple UI that is easy to navigate.
 
 # Install
+
 ```sh
 pip install streamlit-image-annotation
 ```
+
 # Example Usage
 If you want to see other use cases, please check inside the examples folder.
+
 ```python
 from glob import glob
 import pandas as pd
@@ -37,7 +40,9 @@ if label is not None and label['label'] != st.session_state['result_df'].loc[num
     st.session_state['result_df'].loc[num_page, 'label'] = label_list.index(label['label'])
 st.table(st.session_state['result_df'])
 ```
+
 # API
+
 ```python
 classification(
     image_path: str,
@@ -48,6 +53,7 @@ classification(
     key: Optional[str] = None
 )
 ```
+
 - **image_path**: Image path.
 - **label_list**: List of label candidates.
 - **default_label_index**: Initial label index.
@@ -70,6 +76,7 @@ detection(
     key: Optional[str] = None
 )
 ```
+
 - **image_path**: Image path.
 - **label_list**: List of label candidates.
 - **bboxes**: Initial list of bounding boxes, where each bbox is in the format [x, y, w, h].
@@ -93,6 +100,7 @@ pointdet(
     key: Optional[str] = None
 )
 ```
+
 - **image_path**: Image path.
 - **label_list**: List of label candidates.
 - **points**: Initial list of points, where each point is in the format [x, y].
