@@ -17,7 +17,8 @@ export interface PythonArgs {
   image_size: number[],
   label_list: string[],
   bbox_info: any[],
-  color_map: any
+  color_map: any,
+  line_width: number
 }
 
 const Detection = ({ args, theme }: ComponentProps) => {
@@ -26,7 +27,8 @@ const Detection = ({ args, theme }: ComponentProps) => {
     image_size,
     label_list,
     bbox_info,
-    color_map
+    color_map,
+    line_width
   }: PythonArgs = args
 
   const params = new URLSearchParams(window.location.search);
@@ -92,6 +94,7 @@ const Detection = ({ args, theme }: ComponentProps) => {
                 label={label}
                 image={image}
                 image_size={image_size}
+                strokeWidth={line_width}
               />
             </Box>
             <Spacer />

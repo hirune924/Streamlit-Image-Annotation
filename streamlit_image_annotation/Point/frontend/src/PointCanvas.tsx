@@ -13,8 +13,9 @@ export interface PointCanvasProps {
   color_map: any,
   scale: number,
   label: string,
-  image_size: number[]
-  image: any
+  image_size: number[],
+  image: any,
+  strokeWidth: number
 }
 const PointCanvas = (props: PointCanvasProps) => {
   const {
@@ -28,7 +29,8 @@ const PointCanvas = (props: PointCanvasProps) => {
     scale,
     label,
     image_size,
-    image
+    image,
+    strokeWidth
   }: PointCanvasProps = props
   const checkDeselect = (e: any) => {
     console.log('DOWN')
@@ -83,6 +85,7 @@ const PointCanvas = (props: PointCanvasProps) => {
               key={i}
               rectProps={point}
               scale={scale}
+              strokeWidth={strokeWidth}
               isSelected={mode === 'Transform' && point.id === selectedId}
               onClick={() => {
                 if (mode === 'Transform') {

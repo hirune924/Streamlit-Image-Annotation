@@ -73,6 +73,7 @@ detection(
     labels: Optional[List[int]] = None,
     height: int = 512,
     width: int = 512,
+    line_width: int = 5,
     key: Optional[str] = None
 )
 ```
@@ -83,6 +84,7 @@ detection(
 - **labels**: List of label for each initial bbox.
 - **height**: The maximum height of the displayed image.
 - **width**: The maximum width of the displayed image.
+- **line_width**: The stroke width of the bbox.
 - **key**: An optional string to use as the unique key for the widget. Assign a key so the component is not remount every time the script is rerun.
 
 - **Component Value**: \[{'bbox':[x,y,width, height], 'label_id': label_id, 'label': label_name},...\]
@@ -97,6 +99,7 @@ pointdet(
     labels: Optional[List[int]] = None,
     height: int = 512,
     width: int = 512,
+    point_width: int =3,
     key: Optional[str] = None
 )
 ```
@@ -107,6 +110,7 @@ pointdet(
 - **labels**: List of label for each initial bbox.
 - **height**: The maximum height of the displayed image.
 - **width**: The maximum width of the displayed image.
+- **point_width**: The stroke width of the bbox.
 - **key**: An optional string to use as the unique key for the widget. Assign a key so the component is not remount every time the script is rerun.
 
 - **Component Value**: \[{'bbox':[x,y], 'label_id': label_id, 'label': label_name},...\]
@@ -116,3 +120,49 @@ Example: [example code](example/pointdet.py)
 # Future Work
 * Addition of component for segmentation task.
 
+# Development
+## setup
+```bash
+cd Streamlit-Image-Annotation/
+export PYTHONPATH=$PWD
+```
+and set `IS_RELEASE = False` in `Streamlit-Image-Annotation/__init__.py`.
+
+
+## start frontend
+```bash
+git clone https://github.com/hirune924/Streamlit-Image-Annotation.git
+cd Streamlit-Image-Annotation/streamlit_image_annotation/Detection
+yarn
+yarn start
+```
+
+## start streamlit
+```bash
+cd Streamlit-Image-Annotation/
+streamlit run streamlit_image_annotation/Detection/__init__.py
+```
+
+## build
+```bash
+cd Streamlit-Image-Annotation/Classification/frontend
+yarn build
+cd Streamlit-Image-Annotation/Detection/frontend
+yarn build
+cd Streamlit-Image-Annotation/Point/frontend
+yarn build
+```
+and set `IS_RELEASE = True` in `Streamlit-Image-Annotation/__init__.py`.
+
+## make wheel
+```bash
+python setup.py sdist bdist_wheel
+```
+## upload
+```bash
+python3 -m twine upload --repository testpypi dist/*
+python -m pip install --index-url https://test.pypi.org/simple/ --no-deps streamlit-image-annotation
+```
+```bash
+twine upload dist/*
+```

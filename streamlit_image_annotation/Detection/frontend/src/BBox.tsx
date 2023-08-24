@@ -15,13 +15,14 @@ export interface BBoxProps {
   onChange: any,
   isSelected: boolean,
   onClick: any,
-  scale: number
+  scale: number,
+  strokeWidth: number
 }
 const BBox = (props: BBoxProps) => {
   const shapeRef = React.useRef<any>();
   const trRef = React.useRef<any>();
   const {
-    rectProps, onChange, isSelected, onClick, scale
+    rectProps, onChange, isSelected, onClick, scale, strokeWidth
   }: BBoxProps = props
   const [moving, setMoving] = useState(false);
 
@@ -48,7 +49,7 @@ const BBox = (props: BBoxProps) => {
         //scaleX={scale}
         //scaleY={scale}
         draggable={isSelected}
-        strokeWidth={5}
+        strokeWidth={strokeWidth}
         onDragStart={(e) => {
           setMoving(true)
         }}
@@ -93,7 +94,7 @@ const BBox = (props: BBoxProps) => {
         rotateEnabled={false}
         keepRatio={false}
         borderStroke={rectProps.stroke}
-        borderStrokeWidth={5}
+        borderStrokeWidth={strokeWidth}
         boundBoxFunc={(oldBox, newBox) => {
           // limit resize
           if (newBox.width < 5 || newBox.height < 5) {

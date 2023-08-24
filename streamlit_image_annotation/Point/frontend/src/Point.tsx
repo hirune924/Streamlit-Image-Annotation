@@ -15,11 +15,12 @@ export interface BBoxProps {
   onChange: any,
   isSelected: boolean,
   onClick: any,
-  scale: number
+  scale: number,
+  strokeWidth: number
 }
 const Point = (props: BBoxProps)=>{
   const {
-    rectProps, onChange, isSelected, onClick, scale
+    rectProps, onChange, isSelected, onClick, scale, strokeWidth
   }: BBoxProps = props
 
   return (
@@ -29,10 +30,10 @@ const Point = (props: BBoxProps)=>{
         {...rectProps}
         x={rectProps.x * scale}
         y={rectProps.y * scale}
-        width={10}
-        height={10}
+        width={strokeWidth*2}
+        height={strokeWidth*2}
         draggable={isSelected}
-        strokeWidth={isSelected?12:3}
+        strokeWidth={isSelected?strokeWidth*3:strokeWidth}
         onDragEnd={(e) => {
           onChange({
             ...rectProps,

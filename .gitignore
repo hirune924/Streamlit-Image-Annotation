@@ -54,7 +54,7 @@ node_modules/
 coverage/
 
 # Lockfiles
-yarn.lock
+#yarn.lock
 package-lock.json
 
 ########################################################################

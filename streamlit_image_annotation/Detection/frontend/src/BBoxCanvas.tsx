@@ -13,8 +13,9 @@ export interface BBoxCanvasLayerProps {
   color_map: any,
   scale: number,
   label: string,
-  image_size: number[]
-  image: any
+  image_size: number[],
+  image: any,
+  strokeWidth: number
 }
 const BBoxCanvas = (props: BBoxCanvasLayerProps) => {
   const {
@@ -28,7 +29,8 @@ const BBoxCanvas = (props: BBoxCanvasLayerProps) => {
     scale,
     label,
     image_size,
-    image
+    image,
+    strokeWidth
   }: BBoxCanvasLayerProps = props
   const [adding, setAdding] = useState<number[] | null>(null)
   const checkDeselect = (e: any) => {
@@ -117,6 +119,7 @@ const BBoxCanvas = (props: BBoxCanvasLayerProps) => {
               key={i}
               rectProps={rect}
               scale={scale}
+              strokeWidth={strokeWidth}
               isSelected={mode === 'Transform' && rect.id === selectedId}
               onClick={() => {
                 if (mode === 'Transform') {

@@ -14,8 +14,9 @@ export interface PythonArgs {
   image_url: string,
   image_size: number[],
   label_list: string[],
-  points_info: any[]
-  color_map: any
+  points_info: any[],
+  color_map: any,
+  point_width: number
 }
 
 /**
@@ -28,7 +29,8 @@ const PointDet = ({ args, theme }: ComponentProps) => {
     image_size,
     label_list,
     points_info,
-    color_map
+    color_map,
+    point_width
   }: PythonArgs = args
 
   const params = new URLSearchParams(window.location.search);
@@ -91,6 +93,7 @@ const PointDet = ({ args, theme }: ComponentProps) => {
                 label={label}
                 image={image}
                 image_size={image_size}
+                strokeWidth={point_width}
               />
             </Box>
             <Spacer />
