@@ -20,7 +20,7 @@ with mode[0]:
     new_labels = detection(image_path=target_image_path, 
                         bboxes=st.session_state['result_dict_det'][target_image_path]['bboxes'], 
                         labels=st.session_state['result_dict_det'][target_image_path]['labels'], 
-                        label_list=label_list, key=target_image_path+'_det')
+                        label_list=label_list, use_space=True, key=target_image_path+'_det')
     if new_labels is not None:
         st.session_state['result_dict_det'][target_image_path]['bboxes'] = [v['bbox'] for v in new_labels]
         st.session_state['result_dict_det'][target_image_path]['labels'] = [v['label_id'] for v in new_labels]
@@ -55,7 +55,8 @@ with mode[2]:
     new_labels = pointdet(image_path=target_image_path, 
                             label_list=label_list, 
                             points=st.session_state['result_dict_point'][target_image_path]['points'],
-                            labels=st.session_state['result_dict_point'][target_image_path]['labels'], key=target_image_path+'_point')
+                            labels=st.session_state['result_dict_point'][target_image_path]['labels'],
+                            use_space=True, key=target_image_path+'_point')
     if new_labels is not None:
         st.session_state['result_dict_point'][target_image_path]['points'] = [v['point'] for v in new_labels]
         st.session_state['result_dict_point'][target_image_path]['labels'] = [v['label_id'] for v in new_labels]

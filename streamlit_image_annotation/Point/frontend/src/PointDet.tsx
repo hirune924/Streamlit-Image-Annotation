@@ -16,7 +16,8 @@ export interface PythonArgs {
   label_list: string[],
   points_info: any[],
   color_map: any,
-  point_width: number
+  point_width: number,
+  use_space: boolean,
 }
 
 /**
@@ -30,7 +31,8 @@ const PointDet = ({ args, theme }: ComponentProps) => {
     label_list,
     points_info,
     color_map,
-    point_width
+    point_width,
+    use_space
   }: PythonArgs = args
 
   const params = new URLSearchParams(window.location.search);
@@ -74,6 +76,25 @@ const PointDet = ({ args, theme }: ComponentProps) => {
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas()
   }, [image_size])
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (use_space && event.key === ' ') { // 32 is the key code for Space key
+        const currentPointsValue = pointsInfo.map((point, i) => {
+          return {
+            point: [point.x, point.y],
+            label_id: label_list.indexOf(point.label),
+            label: point.label
+          }
+        })
+        Streamlit.setComponentValue(currentPointsValue)
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [pointsInfo]); 
 
   return (
     <ChakraProvider>

@@ -33,10 +33,11 @@ if not IS_RELEASE:
     if 'result_df' not in st.session_state:
         st.session_state['result_df'] = pd.DataFrame.from_dict({'image': image_path_list, 'label': [0]*len(image_path_list)}).copy()
 
-    num_page = st.slider('page', 0, len(image_path_list)-1, 0)
+    num_page = st.slider('page', 0, len(image_path_list)-1, 0, key="slider")
     label = classification(image_path_list[num_page], 
                            label_list=label_list, 
-                           default_label_index=int(st.session_state['result_df'].loc[num_page, 'label']))
+                           default_label_index=int(st.session_state['result_df'].loc[num_page, 'label']),
+                           key=image_path_list[num_page])
 
     if label is not None and label['label'] != st.session_state['result_df'].loc[num_page, 'label']:
         st.session_state['result_df'].loc[num_page, 'label'] = label_list.index(label['label'])

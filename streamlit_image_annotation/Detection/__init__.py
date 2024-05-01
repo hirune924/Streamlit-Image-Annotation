@@ -32,7 +32,7 @@ def get_colormap(label_names, colormap_name='gist_rainbow'):
 #labels:
 #[0,3]
 #'''
-def detection(image_path, label_list, bboxes=None, labels=None, height=512, width=512, line_width=5.0, key=None) -> CustomComponent:
+def detection(image_path, label_list, bboxes=None, labels=None, height=512, width=512, line_width=5.0, use_space=False, key=None) -> CustomComponent:
     image = Image.open(image_path)
     original_image_size = image.size
     image.thumbnail(size=(width, height))
@@ -45,7 +45,7 @@ def detection(image_path, label_list, bboxes=None, labels=None, height=512, widt
 
     color_map = get_colormap(label_list, colormap_name='gist_rainbow')
     bbox_info = [{'bbox':[b/scale for b in item[0]], 'label_id': item[1], 'label': label_list[item[1]]} for item in zip(bboxes, labels)]
-    component_value = _component_func(image_url=image_url, image_size=image.size, label_list=label_list, bbox_info=bbox_info, color_map=color_map, line_width=line_width, key=key)
+    component_value = _component_func(image_url=image_url, image_size=image.size, label_list=label_list, bbox_info=bbox_info, color_map=color_map, line_width=line_width, use_space=use_space, key=key)
     if component_value is not None:
         component_value = [{'bbox':[b*scale for b in item['bbox']], 'label_id': item['label_id'], 'label': item['label']}for item in component_value]
     return component_value
@@ -67,7 +67,7 @@ if not IS_RELEASE:
     new_labels = detection(image_path=target_image_path, 
                       bboxes=st.session_state['result_dict'][target_image_path]['bboxes'], 
                       labels=st.session_state['result_dict'][target_image_path]['labels'], 
-                      label_list=label_list, line_width=5, key=target_image_path)
+                      label_list=label_list, line_width=5, use_space=True, key=target_image_path)
     if new_labels is not None:
         st.session_state['result_dict'][target_image_path]['bboxes'] = [v['bbox'] for v in new_labels]
         st.session_state['result_dict'][target_image_path]['labels'] = [v['label_id'] for v in new_labels]

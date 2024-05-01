@@ -18,7 +18,8 @@ export interface PythonArgs {
   label_list: string[],
   bbox_info: any[],
   color_map: any,
-  line_width: number
+  line_width: number,
+  use_space: boolean
 }
 
 const Detection = ({ args, theme }: ComponentProps) => {
@@ -28,7 +29,8 @@ const Detection = ({ args, theme }: ComponentProps) => {
     label_list,
     bbox_info,
     color_map,
-    line_width
+    line_width,
+    use_space
   }: PythonArgs = args
 
   const params = new URLSearchParams(window.location.search);
@@ -75,6 +77,25 @@ const Detection = ({ args, theme }: ComponentProps) => {
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas()
   }, [image_size])
+
+  useEffect(() => {
+    const handleKeyPress = (event: KeyboardEvent) => {
+      if (use_space && event.key === ' ') { // 32 is the key code for Space key
+        const currentBboxValue = rectangles.map((rect, i) => {
+          return {
+            bbox: [rect.x, rect.y, rect.width, rect.height],
+            label_id: label_list.indexOf(rect.label),
+            label: rect.label
+          }
+        })
+        Streamlit.setComponentValue(currentBboxValue)
+      }
+    };
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [rectangles]); 
 
   return (
     <ChakraProvider>

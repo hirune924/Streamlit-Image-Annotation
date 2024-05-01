@@ -25,7 +25,7 @@ def get_colormap(label_names, colormap_name='gist_rainbow'):
         colormap[l] = ('#%02x%02x%02x' % tuple(rgb))
     return colormap
 
-def pointdet(image_path, label_list, points=None, labels=None, height=512, width=512, point_width=3, key=None) -> CustomComponent:
+def pointdet(image_path, label_list, points=None, labels=None, height=512, width=512, point_width=3, use_space=False, key=None) -> CustomComponent:
     image = Image.open(image_path)
     original_image_size = image.size
     image.thumbnail(size=(width, height))
@@ -38,7 +38,7 @@ def pointdet(image_path, label_list, points=None, labels=None, height=512, width
 
     color_map = get_colormap(label_list, colormap_name='gist_rainbow')
     points_info = [{'point':[b/scale for b in item[0]], 'label_id': item[1], 'label': label_list[item[1]]} for item in zip(points, labels)]
-    component_value = _component_func(image_url=image_url, image_size=image.size, label_list=label_list, points_info=points_info, color_map=color_map, point_width=point_width, key=key)
+    component_value = _component_func(image_url=image_url, image_size=image.size, label_list=label_list, points_info=points_info, color_map=color_map, point_width=point_width, use_space=use_space, key=key)
     if component_value is not None:
         component_value = [{'point':[b*scale for b in item['point']], 'label_id': item['label_id'], 'label': item['label']}for item in component_value]
     return component_value
@@ -61,7 +61,7 @@ if not IS_RELEASE:
                            label_list=label_list, 
                            points=st.session_state['result_dict'][target_image_path]['points'],
                            labels=st.session_state['result_dict'][target_image_path]['labels'],
-                           point_width=3, key=target_image_path)
+                           point_width=3, use_space=True, key=target_image_path)
 
     if new_labels is not None:
         st.session_state['result_dict'][target_image_path]['points'] = [v['point'] for v in new_labels]
