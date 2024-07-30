@@ -10,6 +10,11 @@ import matplotlib.pyplot as plt
 from hashlib import md5
 from streamlit_image_annotation import IS_RELEASE
 
+import cv2
+import numpy as np
+import base64
+import io
+
 if IS_RELEASE:
     absolute_path = os.path.dirname(os.path.abspath(__file__))
     build_path = os.path.join(absolute_path, "frontend/build")
@@ -25,8 +30,12 @@ def get_colormap(label_names, colormap_name='gist_rainbow'):
         colormap[l] = ('#%02x%02x%02x' % tuple(rgb))
     return colormap
 
-def pointdet(image_path, label_list, points=None, labels=None, height=512, width=512, point_width=3, use_space=False, key=None) -> CustomComponent:
-    image = Image.open(image_path)
+def pointdet(image, label_list, points=None, labels=None, height=512, width=512, point_width=3, use_space=False, key=None) -> CustomComponent:
+    if isinstance(image, np.ndarray):
+        _, buffer = cv2.imencode('.jpg', cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+        img_str = base64.b64encode(buffer).decode()
+        image = io.BytesIO(base64.b64decode(img_str))
+    image = Image.open(image)
     original_image_size = image.size
     image.thumbnail(size=(width, height))
     resized_image_size = image.size

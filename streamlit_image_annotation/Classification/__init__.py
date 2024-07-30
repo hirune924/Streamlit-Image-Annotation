@@ -9,6 +9,11 @@ from PIL import Image
 from hashlib import md5
 from streamlit_image_annotation import IS_RELEASE
 
+import cv2
+import numpy as np
+import base64
+import io
+
 if IS_RELEASE:
     absolute_path = os.path.dirname(os.path.abspath(__file__))
     build_path = os.path.join(absolute_path, "frontend/build")
@@ -16,8 +21,12 @@ if IS_RELEASE:
 else:
     _component_func = components.declare_component("st_classification", url="http://localhost:3000")
 
-def classification(image_path, label_list, default_label_index=None, height=512, width=512, key=None) -> CustomComponent:
-    image = Image.open(image_path)
+def classification(image, label_list, default_label_index=None, height=512, width=512, key=None) -> CustomComponent:
+    if isinstance(image, np.ndarray):
+        _, buffer = cv2.imencode('.jpg', cv2.cvtColor(image, cv2.COLOR_BGR2RGB))
+        img_str = base64.b64encode(buffer).decode()
+        image = io.BytesIO(base64.b64decode(img_str))
+    image = Image.open(image)
     image.thumbnail(size=(width, height))
     image_url = st_image.image_to_url(image, image.size[0], True, "RGB", "PNG", f"classification-{md5(image.tobytes()).hexdigest()}-{key}")
     if image_url.startswith('/'):
