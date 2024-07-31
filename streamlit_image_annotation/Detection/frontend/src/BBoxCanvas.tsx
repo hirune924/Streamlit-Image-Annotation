@@ -32,6 +32,11 @@ const BBoxCanvas = (props: BBoxCanvasLayerProps) => {
     image,
     strokeWidth
   }: BBoxCanvasLayerProps = props
+  rectangles.sort((a, b) => {
+    const idA = parseInt(a.id.split('-')[1]);
+    const idB = parseInt(b.id.split('-')[1]);
+    return idA - idB;
+  });
   const [adding, setAdding] = useState<number[] | null>(null)
   const checkDeselect = (e: any) => {
     console.log('DOWN')
