@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 from streamlit.components.v1.components import CustomComponent
 
 import streamlit as st
-import streamlit.elements.image as st_image
+from streamlit.elements.lib.image_utils import image_to_url
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -32,7 +32,7 @@ def pointdet(image_path, label_list, points=None, labels=None, height=512, width
     resized_image_size = image.size
     scale = original_image_size[0]/resized_image_size[0]
     
-    image_url = st_image.image_to_url(image, image.size[0], True, "RGB", "PNG", f"point-{md5(image.tobytes()).hexdigest()}-{key}")
+    image_url = image_to_url(image, image.size[0], True, "RGB", "PNG", f"point-{md5(image.tobytes()).hexdigest()}-{key}")
     if image_url.startswith('/'):
         image_url = image_url[1:]
 
