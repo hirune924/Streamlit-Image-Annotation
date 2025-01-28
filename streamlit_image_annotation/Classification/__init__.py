@@ -3,7 +3,7 @@ import streamlit.components.v1 as components
 from streamlit.components.v1.components import CustomComponent
 
 import streamlit as st
-import streamlit.elements.image as st_image
+from streamlit.elements.lib.image_utils import image_to_url
 from PIL import Image
 
 from hashlib import md5
@@ -19,7 +19,7 @@ else:
 def classification(image_path, label_list, default_label_index=None, height=512, width=512, key=None) -> CustomComponent:
     image = Image.open(image_path)
     image.thumbnail(size=(width, height))
-    image_url = st_image.image_to_url(image, image.size[0], True, "RGB", "PNG", f"classification-{md5(image.tobytes()).hexdigest()}-{key}")
+    image_url = image_to_url(image, image.size[0], True, "RGB", "PNG", f"classification-{md5(image.tobytes()).hexdigest()}-{key}")
     if image_url.startswith('/'):
         image_url = image_url[1:]
     component_value = _component_func(image_url=image_url, image_size=image.size, label_list=label_list, default_label_idx=default_label_index, key=key)
