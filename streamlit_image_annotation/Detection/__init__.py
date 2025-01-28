@@ -4,7 +4,10 @@ from streamlit.components.v1.components import CustomComponent
 from typing import List
 
 import streamlit as st
-import streamlit.elements.image as st_image
+try:
+    from streamlit.elements.image import image_to_url
+except:
+    from streamlit.elements.lib.image_utils import image_to_url
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -39,7 +42,7 @@ def detection(image_path, label_list, bboxes=None, labels=None, height=512, widt
     resized_image_size = image.size
     scale = original_image_size[0]/resized_image_size[0]
     
-    image_url = st_image.image_to_url(image, image.size[0], True, "RGB", "PNG", f"detection-{md5(image.tobytes()).hexdigest()}-{key}")
+    image_url = image_to_url(image, image.size[0], True, "RGB", "PNG", f"detection-{md5(image.tobytes()).hexdigest()}-{key}")
     if image_url.startswith('/'):
         image_url = image_url[1:]
 

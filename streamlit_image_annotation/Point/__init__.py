@@ -3,7 +3,10 @@ import streamlit.components.v1 as components
 from streamlit.components.v1.components import CustomComponent
 
 import streamlit as st
-from streamlit.elements.lib.image_utils import image_to_url
+try:
+    from streamlit.elements.image import image_to_url
+except:
+    from streamlit.elements.lib.image_utils import image_to_url
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
