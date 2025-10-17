@@ -58,9 +58,6 @@ def detection(image_path, label_list, bboxes=None, labels=None, height=512, widt
     else:
         image_url = image_to_url(image, image.size[0], True, "RGB", "PNG", f"detection-{md5(image.tobytes()).hexdigest()}-{key}")
 
-    if image_url.startswith('/'):
-        image_url = image_url[1:]
-
     color_map = get_colormap(label_list, colormap_name='gist_rainbow')
     bbox_info = [{'bbox':[b/scale for b in item[0]], 'label_id': item[1], 'label': label_list[item[1]]} for item in zip(bboxes, labels)]
     component_value = _component_func(image_url=image_url, image_size=image.size, label_list=label_list, bbox_info=bbox_info, color_map=color_map, line_width=line_width, use_space=use_space, key=key)

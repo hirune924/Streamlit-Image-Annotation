@@ -37,7 +37,24 @@ const PointDet = ({ args, theme }: ComponentProps) => {
 
   const params = new URLSearchParams(window.location.search);
   const baseUrl = params.get('streamlitUrl')
-  const [image] = useImage(baseUrl + image_url)
+
+  // Extract origin (protocol + host + port) from baseUrl, ignoring any path
+  // This is needed because in multipage apps, streamlitUrl incorrectly includes the page path
+  let streamlitOrigin: string
+  if (baseUrl) {
+    try {
+      const url = new URL(baseUrl)
+      streamlitOrigin = url.origin // e.g., "http://localhost:8507"
+    } catch (e) {
+      // If baseUrl is invalid, fall back to window origin
+      streamlitOrigin = window.location.origin
+    }
+  } else {
+    streamlitOrigin = window.location.origin
+  }
+
+  const imageUrl = streamlitOrigin + image_url
+  const [image] = useImage(imageUrl)
   const [pointsInfo, setPointsInfo] = React.useState(
     points_info.map((p, i) => {
       return {

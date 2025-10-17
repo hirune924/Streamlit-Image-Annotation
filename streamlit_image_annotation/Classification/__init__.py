@@ -38,8 +38,6 @@ def classification(image_path, label_list, default_label_index=None, height=512,
     else:
         image_url = image_to_url(image, image.size[0], True, "RGB", "PNG", f"classification-{md5(image.tobytes()).hexdigest()}-{key}")
 
-    if image_url.startswith('/'):
-        image_url = image_url[1:]
     component_value = _component_func(image_url=image_url, image_size=image.size, label_list=label_list, default_label_idx=default_label_index, key=key)
     return component_value
 
