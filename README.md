@@ -148,6 +148,21 @@ streamlit run streamlit_image_annotation/Detection/__init__.py
 ```
 
 ## build
+You can use the automated build script to build all components and create the distribution package:
+
+```bash
+source .venv/bin/activate  # Activate virtual environment first
+./scripts/build_all.sh
+```
+
+This script will:
+1. Clean previous builds
+2. Build all three frontend components (Classification, Detection, Point)
+3. Create both wheel and source distribution packages in `dist/` folder
+
+The built package can be found in `dist/streamlit_image_annotation-*.whl`.
+
+Alternatively, you can build manually:
 ```bash
 cd Streamlit-Image-Annotation/Classification/frontend
 yarn build
@@ -158,7 +173,7 @@ yarn build
 ```
 and set `IS_RELEASE = True` in `Streamlit-Image-Annotation/__init__.py`.
 
-## make wheel
+Then create the wheel:
 ```bash
 python setup.py sdist bdist_wheel
 ```

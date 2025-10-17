@@ -1,12 +1,21 @@
 import os
 import streamlit.components.v1 as components
 from streamlit.components.v1.components import CustomComponent
+from packaging import version
 
 import streamlit as st
 try:
     from streamlit.elements.image import image_to_url
 except:
     from streamlit.elements.lib.image_utils import image_to_url
+
+# Streamlit >= 1.49.0 uses LayoutConfig, older versions use int width
+STREAMLIT_VERSION = version.parse(st.__version__)
+USE_LAYOUT_CONFIG = STREAMLIT_VERSION >= version.parse("1.49.0")
+
+if USE_LAYOUT_CONFIG:
+    from streamlit.elements.lib.layout_utils import LayoutConfig
+
 from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
@@ -34,8 +43,14 @@ def pointdet(image_path, label_list, points=None, labels=None, height=512, width
     image.thumbnail(size=(width, height))
     resized_image_size = image.size
     scale = original_image_size[0]/resized_image_size[0]
-    
-    image_url = image_to_url(image, image.size[0], True, "RGB", "PNG", f"point-{md5(image.tobytes()).hexdigest()}-{key}")
+
+    # Support both old and new Streamlit API
+    if USE_LAYOUT_CONFIG:
+        layout_config = LayoutConfig(width=image.size[0], height=image.size[1])
+        image_url = image_to_url(image, layout_config, True, "RGB", "PNG", f"point-{md5(image.tobytes()).hexdigest()}-{key}")
+    else:
+        image_url = image_to_url(image, image.size[0], True, "RGB", "PNG", f"point-{md5(image.tobytes()).hexdigest()}-{key}")
+
     if image_url.startswith('/'):
         image_url = image_url[1:]
 

@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="streamlit_image_annotation",
-    version="0.5.0",
+    version="0.6.0",
     author="hirune924",
     description="streamlit components for image annotation",
     long_description=long_description,
