@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="streamlit_image_annotation",
-    version="0.6.0",
+    version="0.7.2",
     author="hirune924",
     description="streamlit components for image annotation",
     long_description=long_description,
@@ -18,5 +18,6 @@ setuptools.setup(
     python_requires=">=3.6",
     install_requires=[
         "streamlit >= 0.63",
+        "matplotlib >= 3.3.4",
     ],
 )

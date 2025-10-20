@@ -122,7 +122,8 @@ pointdet(
 Example: [example code](example/pointdet.py)
 
 # Future Work
-* Addition of component for segmentation task.
+* Refactoring
+* CI and Test
 
 # Development
 ## setup

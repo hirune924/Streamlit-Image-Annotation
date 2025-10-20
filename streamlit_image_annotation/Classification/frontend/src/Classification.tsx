@@ -31,22 +31,19 @@ const Classification = ({ args, theme }: ComponentProps) => {
   const params = new URLSearchParams(window.location.search);
   const baseUrl = params.get('streamlitUrl')
 
-  // Extract origin (protocol + host + port) from baseUrl, ignoring any path
-  // This is needed because in multipage apps, streamlitUrl incorrectly includes the page path
-  let streamlitOrigin: string
+  // Construct image URL
+  let imageUrl: string
   if (baseUrl) {
-    try {
-      const url = new URL(baseUrl)
-      streamlitOrigin = url.origin // e.g., "http://localhost:8507"
-    } catch (e) {
-      // If baseUrl is invalid, fall back to window origin
-      streamlitOrigin = window.location.origin
-    }
+    const url = new URL(baseUrl)
+    // If baseUrl doesn't end with '/', it likely includes a page name - remove it
+    const cleanPath = url.pathname.endsWith('/')
+      ? url.pathname
+      : url.pathname.substring(0, url.pathname.lastIndexOf('/') + 1)
+    imageUrl = url.origin + cleanPath + image_url.substring(1)
   } else {
-    streamlitOrigin = window.location.origin
+    imageUrl = image_url
   }
 
-  const imageUrl = streamlitOrigin + image_url
   const [image] = useImage(imageUrl)
   const [label, setLabel] = useState(label_list[default_label_idx])
   const [scale, setScale] = useState(1.0)
