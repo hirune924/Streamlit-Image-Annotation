@@ -1,0 +1,10 @@
+streamlit
+Pillow
+streamlit-image-annotation
+matplotlib
+pandas
+numpy
+opencv-python-headless
+torch
+git+https://github.com/facebookresearch/segment-anything.git
+torchvision

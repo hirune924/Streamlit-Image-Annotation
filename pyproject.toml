@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "streamlit_image_annotation"
+version = "0.6.0"
+description = "streamlit components for image annotation"
+readme = "README.md"
+authors = [
+    { name = "hirune924" }
+]
+keywords = ["Python", "Streamlit", "React", "JavaScript"]
+requires-python = ">=3.6"
+dependencies = [
+    "matplotlib>=3.3.4",
+    "streamlit>=0.63",
+]
+
+[project.urls]
+Homepage = "https://github.com/hirune924/Streamlit-Image-Annotation"
+
+[dependency-groups]
+dev = []
