@@ -124,6 +124,7 @@ Example: [example code](example/pointdet.py)
 # Future Work
 * Refactoring
 * CI and Test
+* Segmentation
 
 # Development
 ## setup
