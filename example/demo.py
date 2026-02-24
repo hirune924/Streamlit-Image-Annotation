@@ -11,7 +11,10 @@ with mode[0]:
     if 'result_dict_det' not in st.session_state:
         result_dict = {}
         for img in image_path_list:
-            result_dict[img] = {'bboxes': [[0,0,100,100],[10,20,50,150]],'labels':[0,3]}
+            if 'wide_test' in img:
+                result_dict[img] = {'bboxes': [[20,10,160,80],[250,20,200,60]],'labels':[0,3]}
+            else:
+                result_dict[img] = {'bboxes': [[0,0,100,100],[10,20,50,150]],'labels':[0,3]}
         st.session_state['result_dict_det'] = result_dict.copy()
 
     num_page = st.slider('page', 0, len(image_path_list)-1, 0, key='slider_det')
@@ -46,7 +49,10 @@ with mode[2]:
     if 'result_dict_point' not in st.session_state:
         result_dict = {}
         for img in image_path_list:
-            result_dict[img] = {'points': [[0,0],[50,150], [200,200]],'labels':[0,3,4]}
+            if 'wide_test' in img:
+                result_dict[img] = {'points': [[100,50],[300,60],[450,40]],'labels':[0,3,4]}
+            else:
+                result_dict[img] = {'points': [[0,0],[50,150], [200,200]],'labels':[0,3,4]}
         st.session_state['result_dict_point'] = result_dict.copy()
 
     num_page = st.slider('page', 0, len(image_path_list)-1, 0, key='slider_point')

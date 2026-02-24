@@ -85,7 +85,8 @@ const PointDet = ({ args, theme }: ComponentProps) => {
     const resizeCanvas = () => {
       const scale_ratio = window.innerWidth * 0.8 / image_size[0]
       setScale(Math.min(scale_ratio, 1.0))
-      Streamlit.setFrameHeight(image_size[1] * Math.min(scale_ratio, 1.0))
+      const imageHeight = image_size[1] * Math.min(scale_ratio, 1.0)
+      Streamlit.setFrameHeight(Math.max(imageHeight, 200))
     }
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas()

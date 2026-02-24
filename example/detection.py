@@ -7,7 +7,10 @@ image_path_list = glob('image/*.jpg')
 if 'result_dict' not in st.session_state:
     result_dict = {}
     for img in image_path_list:
-        result_dict[img] = {'bboxes': [[0,0,100,100],[10,20,50,150]],'labels':[0,3]}
+        if 'wide_test' in img:
+            result_dict[img] = {'bboxes': [[20,10,160,80],[250,20,200,60]],'labels':[0,3]}
+        else:
+            result_dict[img] = {'bboxes': [[0,0,100,100],[10,20,50,150]],'labels':[0,3]}
     st.session_state['result_dict'] = result_dict.copy()
 
 num_page = st.slider('page', 0, len(image_path_list)-1, 0, key='slider')

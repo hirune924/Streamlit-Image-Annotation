@@ -19,7 +19,10 @@ st.write(f"Found {len(image_path_list)} images")
 if 'result_dict_point' not in st.session_state:
     result_dict = {}
     for img in image_path_list:
-        result_dict[img] = {'points': [[0,0],[50,150], [200,200]],'labels':[0,3,4]}
+        if 'wide_test' in img:
+            result_dict[img] = {'points': [[100,50],[300,60],[450,40]],'labels':[0,3,4]}
+        else:
+            result_dict[img] = {'points': [[0,0],[50,150], [200,200]],'labels':[0,3,4]}
     st.session_state['result_dict_point'] = result_dict.copy()
 
 num_page = st.slider('page', 0, len(image_path_list)-1, 0, key='slider_point')
