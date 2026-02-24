@@ -38,7 +38,12 @@ def get_colormap(label_names, colormap_name='gist_rainbow'):
     return colormap
 
 def pointdet(image_path, label_list, points=None, labels=None, height=512, width=512, point_width=3, use_space=False, key=None) -> CustomComponent:
-    image = Image.open(image_path)
+    if isinstance(image_path, Image.Image):
+        image = image_path
+    elif isinstance(image_path, np.ndarray):
+        image = Image.fromarray(image_path)
+    else:
+        image = Image.open(image_path)
     original_image_size = image.size
     image.thumbnail(size=(width, height))
     resized_image_size = image.size

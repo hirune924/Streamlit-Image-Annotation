@@ -17,6 +17,7 @@ if USE_LAYOUT_CONFIG:
     from streamlit.elements.lib.layout_utils import LayoutConfig
 
 from PIL import Image
+import numpy as np
 from hashlib import md5
 from streamlit_image_annotation import IS_RELEASE
 
@@ -28,7 +29,12 @@ else:
     _component_func = components.declare_component("st_classification", url="http://localhost:3000")
 
 def classification(image_path, label_list, default_label_index=None, height=512, width=512, key=None) -> CustomComponent:
-    image = Image.open(image_path)
+    if isinstance(image_path, Image.Image):
+        image = image_path
+    elif isinstance(image_path, np.ndarray):
+        image = Image.fromarray(image_path)
+    else:
+        image = Image.open(image_path)
     image.thumbnail(size=(width, height))
 
     # Support both old and new Streamlit API
