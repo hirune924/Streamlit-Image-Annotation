@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { Layer, Rect, Stage, Image } from 'react-konva';
 import BBox from './BBox'
 import Konva from 'konva';
@@ -33,6 +33,71 @@ const BBoxCanvas = (props: BBoxCanvasLayerProps) => {
     strokeWidth
   }: BBoxCanvasLayerProps = props
   const [adding, setAdding] = useState<number[] | null>(null)
+  const [isOutside, setIsOutside] = useState<boolean>(false)
+  const addingRef = useRef<number[] | null>(null)
+
+  useEffect(() => {
+    addingRef.current = adding
+  }, [adding])
+
+  const canvasWidth = image_size[0] * scale
+  const canvasHeight = image_size[1] * scale
+
+  const clampToCanvas = (x: number, y: number): [number, number] => {
+    return [
+      Math.max(0, Math.min(canvasWidth, x)),
+      Math.max(0, Math.min(canvasHeight, y))
+    ]
+  }
+
+  const createBoundingBox = (endX: number, endY: number) => {
+    const currentAdding = addingRef.current
+    if (currentAdding === null) return
+    const [clampedX, clampedY] = clampToCanvas(endX, endY)
+    const rects = rectangles.slice();
+    const new_id = Date.now().toString()
+    rects.push({
+      x: currentAdding[0] / scale,
+      y: currentAdding[1] / scale,
+      width: (clampedX - currentAdding[0]) / scale,
+      height: (clampedY - currentAdding[1]) / scale,
+      label: label,
+      stroke: color_map[label],
+      id: new_id
+    })
+    setRectangles(rects);
+    setSelectedId(new_id);
+    addingRef.current = null
+    setAdding(null)
+  }
+
+  useEffect(() => {
+    if (adding === null || !isOutside) return
+    const handleGlobalMouseUp = () => {
+      if (addingRef.current !== null) {
+        createBoundingBox(addingRef.current[2], addingRef.current[3])
+      }
+    }
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      if (addingRef.current !== null) {
+        const stage = document.querySelector('.konvajs-content')?.parentElement
+        if (stage) {
+          const rect = stage.getBoundingClientRect()
+          const x = e.clientX - rect.left
+          const y = e.clientY - rect.top
+          const [clampedX, clampedY] = clampToCanvas(x, y)
+          setAdding([addingRef.current[0], addingRef.current[1], clampedX, clampedY])
+        }
+      }
+    }
+    window.addEventListener('mouseup', handleGlobalMouseUp)
+    window.addEventListener('mousemove', handleGlobalMouseMove)
+    return () => {
+      window.removeEventListener('mouseup', handleGlobalMouseUp)
+      window.removeEventListener('mousemove', handleGlobalMouseMove)
+    }
+  }, [adding, isOutside])
+
   const checkDeselect = (e: any) => {
     console.log('DOWN')
     if (!(e.target instanceof Konva.Rect)) {
@@ -40,6 +105,7 @@ const BBoxCanvas = (props: BBoxCanvasLayerProps) => {
         if (mode === 'Transform') {
           const pointer = e.target.getStage().getPointerPosition()
           setAdding([pointer.x, pointer.y, pointer.x, pointer.y])
+          setIsOutside(false)
         }
       } else {
         setSelectedId(null);
@@ -80,33 +146,32 @@ const BBoxCanvas = (props: BBoxCanvasLayerProps) => {
     console.log(rects)
   }, [rectangles, image_size])
   return (
-    <Stage width={image_size[0] * scale} height={image_size[1] * scale}
+    <Stage width={canvasWidth} height={canvasHeight}
       onMouseDown={checkDeselect}
       onMouseMove={(e: any) => {
-        if (!(adding === null)) {
+        if (addingRef.current !== null) {
           const pointer = e.target.getStage().getPointerPosition()
-          setAdding([adding[0], adding[1], pointer.x, pointer.y])
+          setAdding([addingRef.current[0], addingRef.current[1], pointer.x, pointer.y])
         }
       }}
-      onMouseLeave={(e: any) => {
-        setAdding(null)
+      onMouseLeave={() => {
+        setIsOutside(true)
+        if (addingRef.current !== null) {
+          const [clampedX, clampedY] = clampToCanvas(addingRef.current[2], addingRef.current[3])
+          setAdding([addingRef.current[0], addingRef.current[1], clampedX, clampedY])
+        }
+      }}
+      onMouseEnter={(e: any) => {
+        setIsOutside(false)
+        if (addingRef.current !== null) {
+          const pointer = e.target.getStage().getPointerPosition()
+          setAdding([addingRef.current[0], addingRef.current[1], pointer.x, pointer.y])
+        }
       }}
       onMouseUp={(e: any) => {
-        if (!(adding === null)) {
-          const rects = rectangles.slice();
-          const new_id = Date.now().toString()
-          rects.push({
-            x: adding[0] / scale,
-            y: adding[1] / scale,
-            width: (adding[2] - adding[0]) / scale,
-            height: (adding[3] - adding[1]) / scale,
-            label: label,
-            stroke: color_map[label],
-            id: new_id
-          })
-          setRectangles(rects);
-          setSelectedId(new_id);
-          setAdding(null)
+        if (addingRef.current !== null) {
+          const pointer = e.target.getStage().getPointerPosition()
+          createBoundingBox(pointer.x, pointer.y)
         }
       }}>
       <Layer>
